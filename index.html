@@ -1,0 +1,105 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- third-generation iPad with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ressources/img/favicon144.png">
+  <!-- iPhone with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ressources/img/favicon114.png">
+  <!-- first- and second-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ressources/img/favicon72.png">
+  <!-- non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="ressources/img/favicon57.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- basic favicon -->
+  <link rel="shortcut icon" href="ressources/img/favicon32.png">
+  <link rel="stylesheet" href="ressources/knacss.css">
+  <style media="screen">
+    body{
+      font-family: sans-serif;
+    }
+    label {
+      
+    }
+    form .grid-1{
+      max-width: 30em;
+    }
+    form .grid-1 div{
+      margin:0.3em 0;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="ressources/pdf-lib.min.js"></script>
+  <script src="ressources/qrcode.min.js"></script>
+  <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+  <script src="ressources/generator.js"></script>
+</head>
+  <body>
+<form action="/generate" id="generateForm">
+  <!--
+  const ys = {
+    travail: 578,
+    achats: 533,
+    sante: 477,
+    famille: 435,
+    handicap: 396,
+    sport_animaux: 358,
+    convocation: 295,
+    missions: 255,
+    enfants: 211,
+  };
+  -->
+  <a href="config">Configurer vos donn&eacute;es personnelles</a><br/>
+Raisons de sortie :
+<div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-travail" value="travail">
+               <label class="form-check-label" for="checkbox-travail">Travail (quand pas de t&eacute;l&eacute; pas possible !).</label>
+           </div>
+
+           <div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-achats" value="achats">
+               <label class="form-check-label" for="checkbox-achats">Courses <a href="https://www.service-public.fr/particuliers/actualites/A13921" target="_blank">(liste sur gouvernement.fr)</a>.</label>
+           </div>
+
+           <div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-sante" value="sante">
+               <label class="form-check-label" for="checkbox-sante">Consultations et soins</label>
+           </div>
+
+           <div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-famille" value="famille">
+               <label class="form-check-label" for="checkbox-famille">Motif familial imp&eacute;rieux, pour l'assistance aux personnes vuln&eacute;rables ou la garde d'enfants.</label>
+           </div>
+
+           <div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-handicap" value="handicap">
+               <label class="form-check-label" for="checkbox-handicap">D&eacute;placements des personnes en situation de handicap et de leur accompagnant</label>
+           </div>
+
+           <div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-sport_animaux" value="sport_animaux">
+               <label class="form-check-label" for="checkbox-sport_animaux">D&eacute;placements brefs, limite d'une heure quotidienne et dans un rayon maximal d'1km, ou pipi du chien.</label>
+           </div>
+           <div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-convocation" value="convocation">
+               <label class="form-check-label" for="checkbox-convocation">Convocation judiciaire ou administrative.</label>
+           </div>
+           <div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-missions" value="missions">
+               <label class="form-check-label" for="checkbox-missions">Participation &agrave; des missions d'int&eacute;r&ecirc;t g&eacute;n&eacute;ral, pour compenser l'incomp&eacute;tence des autorit&eacute;s.</label>
+           </div>
+
+           <div class="form-check">
+               <input class="form-check-input" type="checkbox" name="reason" id="checkbox-enfants" value="enfants">
+               <label class="form-check-label" for="checkbox-enfants">D&eacute;placement pour chercher les enfants &agrave; l'&eacute;coles et &agrave; l'occasion de leurs activit&eacute;s p&eacute;riscolaires.</label>
+           </div>
+<input type="submit" name="Generer" value="G&eacute;&eacute;rer">
+</form>
+
+<script type="text/javascript">
+  $('#generateForm').on('submit', generateAttest );
+
+ 
+</script>
+
+  </body>
+</html>

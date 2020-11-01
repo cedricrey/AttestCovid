@@ -1,0 +1,69 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- third-generation iPad with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ressources/img/favicon144.png">
+  <!-- iPhone with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ressources/img/favicon114.png">
+  <!-- first- and second-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ressources/img/favicon72.png">
+  <!-- non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="ressources/img/favicon57.png">
+  <!-- basic favicon -->
+  <link rel="shortcut icon" href="ressources/img/favicon32.png">
+  <link rel="stylesheet" href="ressources/knacss.css">
+  <style media="screen">
+    body{
+      font-family: sans-serif;
+    }
+    label {
+      width:12em;
+    }
+    form .grid-1{
+      max-width: 30em;
+    }
+    form .grid-1 div{
+      margin:0.3em 0;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+</head>
+  <body>
+<form action="/config" id="configForm">
+  <div class="grid-1 center">
+<div><label for="nom">Nom</label><input type="text" name="nom"/></div>
+<div><label for="prenom">Pr&eacute;nom</label><input type="text" name="prenom"/></div>
+<div><label for="birthday">Date de naissance</label><input type="date" name="birthday"/></div>
+<div><label for="lieunaissance">Ville de naissance</label><input type="text" name="lieunaissance"/></div>
+<div><label for="adresse">Adresse</label><input type="text" name="adresse"/></div>
+<div><label for="codepostal">Code Postal</label><input type="text" name="codepostal"/></div>
+<div><label for="ville">Ville</label><input type="text" name="ville"/></div>
+<div><input type="submit" name="Save" value="Sauvegarder"></div>
+</div>
+</form>
+<p>Toutes les données restent locales, rien n'est envoyé au serveur.</p>
+<a href="/">Générer les attestations</a>
+<script type="text/javascript">
+  $('#configForm').on('submit', saveConfig );
+
+function saveConfig(event){
+  $('#configForm input').each( (i, el) =>{
+    //console.log(el);
+    localStorage.setItem($(el).attr('name'), $(el).val());
+  });
+  return false;
+}
+function initForm(){
+  for(var i in localStorage)
+  {
+    $(`#configForm input[name="${i}"]`).val(localStorage[i]);
+  }
+}
+initForm();
+</script>
+  </body>
+</html>
