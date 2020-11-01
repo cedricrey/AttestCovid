@@ -29,7 +29,8 @@ const generateQR = async text => {
 //var encryptedPdfBytes = fs.readFileSync(pdfBase);
 
 async function generateAttestation(user, exitDate, reasons){
-  const encryptedPdfBytes = await fetch('ressources/certificate.pdf').then(res => res.arrayBuffer())
+  //const encryptedPdfBytes = await fetch('ressources/certificate.pdf').then(res => res.arrayBuffer())
+  const encryptedPdfBytes = await fetch('https://raw.githubusercontent.com/cedricrey/AttestCovid/main/ressources/certificate.pdf').then(res => res.arrayBuffer())
   //var user = users[userName];
   //, exitDate = null, reasons = 'travail-sante';
   //console.log(pdfDoc);
