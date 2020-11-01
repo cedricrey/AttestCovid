@@ -244,3 +244,11 @@ function idealFontSize (font, text, maxWidth, minSize, defaultSize) {
     })
     return false;
   }
+function initGenerator(){
+  if( typeof localStorage.nom == "undefined" )
+    displayNoConfigMessage();
+}
+function displayNoConfigMessage(){
+  var divInfo = $('div.error').text(`Il semble que vous n'ayez pas configur&eacute; vos donn&eacute;es personnelles`);
+  $('#info').append( divInfo );
+}
