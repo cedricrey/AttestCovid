@@ -1,5 +1,5 @@
 {
-  "short_name": "ATTESTCOVID",
+  "short_name": "Attestation de sortie",
   "name": "Attestation de sortie",
   "theme_color": "#000099",
   "background_color": "#000000",
@@ -28,5 +28,5 @@
       "sizes": "144x164"
     }
   ],
-  "start_url": "index.html"
+  "start_url": "../index.html"
 }
