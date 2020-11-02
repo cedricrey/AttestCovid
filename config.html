@@ -29,6 +29,10 @@
     form .grid-1 div{
       margin:0.3em 0;
     }
+    .informations{
+      width:30em;
+      margin: 0 auto;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 </head>
@@ -45,8 +49,10 @@
 <div><input type="submit" name="Save" value="Sauvegarder"></div>
 </div>
 </form>
+<div class="informations">
 <p>Toutes les données restent locales, rien n'est envoyé au serveur.</p>
-<a href="index.html">Générer les attestations</a>
+<a href="index.html"> &lt; Retour à l'attestation</a>
+</div>
 <script type="text/javascript">
   $('#configForm').on('submit', saveConfig );
 
