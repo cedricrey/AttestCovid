@@ -241,7 +241,11 @@ function idealFontSize (font, text, maxWidth, minSize, defaultSize) {
     };
     try{
       generateAttestation( user, new Date(), reasons.join(', ') ).then( (pdfBytes) => {
-        download(pdfBytes, "attestation.pdf", "application/pdf");
+        var generatedDate = new Date();
+        generatedDate.setMinutes( generatedDate.getMinutes() - 10 );
+        var generatedDateStr =   `${generatedDate.getFullYear()}-${pad(generatedDate.getMonth() + 1)}-${pad(generatedDate.getDate())}_${pad(generatedDate.getHours())}-${pad(generatedDate.getMinutes())}`
+
+        download(pdfBytes, `attestation-${generatedDateStr}.pdf`, "application/pdf");
       })
       .catch(
         ( e ) => {
