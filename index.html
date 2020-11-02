@@ -28,7 +28,7 @@
       padding: 0.5em 1em;
       font-weight: bold;
     }
-    .grid-3 label{
+    .reasonGrid label{
       margin:1em;
       padding: 0.5em;
       text-align: center;
@@ -36,13 +36,13 @@
       border-radius: 0.4em;
       color:#444;
     }
-    .grid-3 label.active{
+    .reasonGrid label.active{
       border-color:#009;
       font-weight: bold;
       color:#009;
       background-color: #EEF;
     }
-    .grid-3 label i{
+    .reasonGrid label i{
       font-size: 2.5em;
     }
     #info{
@@ -68,18 +68,32 @@
 <form action="/generate" id="generateForm">
 
   <a href="config.html">Configurer vos donn&eacute;es personnelles</a><br/>
-Raisons de sortie :
-  <div class="grid-3">
-       <label class="form-check-label" for="checkbox-travail">
-         <input class="form-check-input" type="checkbox" name="reason" id="checkbox-travail" value="travail">
-         Travail <br><i class="fas fa-briefcase"></i>
-       </label>
+Raisons de sortie : <br><br>
+<input type="submit" name="Generer" value="G&eacute;n&eacute;rer">
+  <div class="reasonGrid grid-3-small-1">
+
+      <label class="form-check-label" for="checkbox-sport_animaux">
+        <input class="form-check-input" type="checkbox" name="reason" id="checkbox-sport_animaux" value="sport_animaux">
+        D&eacute;placements brefs, 1km - 1h/jour, ou pipi du chien <br>
+        <i class="fas fa-running"></i><i class="fas fa-dog" style="font-size:1.5em"></i>
+      </label>
 
        <label class="form-check-label" for="checkbox-achats">
          <input class="form-check-input" type="checkbox" name="reason" id="checkbox-achats" value="achats">
          Courses <br>
          <i class="fas fa-shopping-basket"></i>
        </label>
+
+       <label class="form-check-label" for="checkbox-enfants">
+         <input class="form-check-input" type="checkbox" name="reason" id="checkbox-enfants" value="enfants">
+         D&eacute;placement pour chercher les enfants &agrave; l'&eacute;cole, activit&eacute;s p&eacute;riscolaires <br>
+         <i class="fas fa-school"></i>
+       </label>
+
+        <label class="form-check-label" for="checkbox-travail">
+          <input class="form-check-input" type="checkbox" name="reason" id="checkbox-travail" value="travail">
+          Travail <br><i class="fas fa-briefcase"></i>
+        </label>
 
        <label class="form-check-label" for="checkbox-sante">
          <input class="form-check-input" type="checkbox" name="reason" id="checkbox-sante" value="sante">
@@ -99,12 +113,6 @@ Raisons de sortie :
          <i class="fas fa-hand-holding-heart"></i>
        </label>
 
-       <label class="form-check-label" for="checkbox-sport_animaux">
-         <input class="form-check-input" type="checkbox" name="reason" id="checkbox-sport_animaux" value="sport_animaux">
-         D&eacute;placements brefs, 1km - 1h/jour, ou pipi du chien <br>
-         <i class="fas fa-running"></i>
-       </label>
-
        <label class="form-check-label" for="checkbox-convocation">
          <input class="form-check-input" type="checkbox" name="reason" id="checkbox-convocation" value="convocation">
          Convocation judiciaire ou administrative <br>
@@ -115,12 +123,6 @@ Raisons de sortie :
          <input class="form-check-input" type="checkbox" name="reason" id="checkbox-missions" value="missions">
          Participation &agrave; des missions d'int&eacute;r&ecirc;t g&eacute;n&eacute;ral <br>
          <i class="fas fa-hammer"></i>
-       </label>
-
-       <label class="form-check-label" for="checkbox-enfants">
-         <input class="form-check-input" type="checkbox" name="reason" id="checkbox-enfants" value="enfants">
-         D&eacute;placement pour chercher les enfants &agrave; l'&eacute;coles, activit&eacute;s p&eacute;riscolaires <br>
-         <i class="fas fa-school"></i>
        </label>
 
   </div>
