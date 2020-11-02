@@ -60,7 +60,7 @@ async function generatePdf( user, exitDate, reasons, pdfDoc ){
     'déplacement',
     'officielle',
     'gouvernement',
-  ])
+  ]);
   pdfDoc.setProducer('DNUM/SDIT')
   pdfDoc.setCreator('')
   pdfDoc.setAuthor("Ministère de l'intérieur")
@@ -229,19 +229,29 @@ function idealFontSize (font, text, maxWidth, minSize, defaultSize) {
     $('#generateForm input[name="reason"]:checked').each( (i, el) =>{
       reasons.push($(el).val());
     });
-    console.log( reasons.join(', '))
+    //console.log( reasons.join(', '))
     user = {
-      adresse: localStorage.adresse,
-      birthday: new Date(localStorage.birthday).toLocaleString().substr(0,10),
-      codepostal: localStorage.codepostal,
-      lieunaissance: localStorage.lieunaissance,
-      nom: localStorage.nom,
-      prenom: localStorage.prenom,
-      ville: localStorage.ville
+      adresse: localStorage.adresse || "",
+      birthday: new Date(localStorage.birthday  || null ).toLocaleString().substr(0,10),
+      codepostal: localStorage.codepostal || "",
+      lieunaissance: localStorage.lieunaissance || "",
+      nom: localStorage.nom || "",
+      prenom: localStorage.prenom || "",
+      ville: localStorage.ville || ""
     };
-    generateAttestation( user, new Date(), reasons.join(', ') ).then( (pdfBytes) => {
-      download(pdfBytes, "attestation.pdf", "application/pdf");
-    })
+    try{
+      generateAttestation( user, new Date(), reasons.join(', ') ).then( (pdfBytes) => {
+        download(pdfBytes, "attestation.pdf", "application/pdf");
+      })
+      .catch(
+        ( e ) => {
+          alert("Erreur : " + e );
+        }
+      )
+    }
+    catch( e ){
+      alert("Erreur : " + e );
+    }
     return false;
   }
 function initGenerator(){
@@ -249,6 +259,14 @@ function initGenerator(){
     displayNoConfigMessage();
 }
 function displayNoConfigMessage(){
-  var divInfo = $('div.error').text(`Il semble que vous n'ayez pas configur&eacute; vos donn&eacute;es personnelles`);
+  var divInfo = $('<div class="error">').html(`Il semble que vous n'ayez pas <a href="config.html">configuré vos données personnelles</a>`);
   $('#info').append( divInfo );
+}
+function changeFormValue(){
+  $('#generateForm input[name="reason"]').each( (i, el) =>{
+    if( $(el).is(':checked') )
+      $(el).parent().addClass('active');
+    else
+      $(el).parent().removeClass('active');
+  });
 }

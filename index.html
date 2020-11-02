@@ -34,9 +34,27 @@
       text-align: center;
       border:1px solid #DDD;
       border-radius: 0.4em;
+      color:#444;
+    }
+    .grid-3 label.active{
+      border-color:#009;
+      font-weight: bold;
+      color:#009;
+      background-color: #EEF;
     }
     .grid-3 label i{
       font-size: 2.5em;
+    }
+    #info{
+      text-align: center;
+      margin:10px auto;
+      max-width: 70%;
+    }
+    #info .error{
+      color:#C00;
+      border:1px solid #C00;
+      background-color:#FEE;
+      border-radius: 0.4em;
     }
   </style>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -49,7 +67,7 @@
     <div id="info"></div>
 <form action="/generate" id="generateForm">
 
-  <a href="config">Configurer vos donn&eacute;es personnelles</a><br/>
+  <a href="config.html">Configurer vos donn&eacute;es personnelles</a><br/>
 Raisons de sortie :
   <div class="grid-3">
        <label class="form-check-label" for="checkbox-travail">
@@ -112,7 +130,8 @@ Raisons de sortie :
 <script type="text/javascript">
   initGenerator();
   $('#generateForm').on('submit', generateAttest );
-
+  $('#generateForm').on('change', changeFormValue );
+  changeFormValue();
 </script>
 
   </body>
