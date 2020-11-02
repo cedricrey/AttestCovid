@@ -42,13 +42,13 @@
   <body>
 <form action="/config" id="configForm">
   <div class="grid-1 center">
-<div><label for="nom">Nom</label><input type="text" name="nom"/></div>
-<div><label for="prenom">Pr&eacute;nom</label><input type="text" name="prenom"/></div>
+<div><label for="nom">Nom</label><input type="text" name="nom"/ placeholder="Nom"></div>
+<div><label for="prenom">Pr&eacute;nom</label><input type="text" name="prenom" placeholder="Prénom"/></div>
 <div><label for="birthday">Date de naissance</label><input type="date" name="birthday"/></div>
-<div><label for="lieunaissance">Ville de naissance</label><input type="text" name="lieunaissance"/></div>
-<div><label for="adresse">Adresse</label><input type="text" name="adresse"/></div>
-<div><label for="codepostal">Code Postal</label><input type="text" name="codepostal"/></div>
-<div><label for="ville">Ville</label><input type="text" name="ville"/></div>
+<div><label for="lieunaissance">Ville de naissance</label><input type="text" name="lieunaissance" placeholder="Ville de naisance"/></div>
+<div><label for="adresse">Adresse</label><input type="text" name="adresse" placeholder="Adresse"/></div>
+<div><label for="codepostal">Code Postal</label><input type="text" pattern="[0-9]*" name="codepostal" placeholder="Code postal"/></div>
+<div><label for="ville">Ville</label><input type="text" name="ville" placeholder="Ville"/></div>
 <div><input type="submit" name="Save" value="Sauvegarder"></div>
 </div>
 </form>
