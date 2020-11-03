@@ -1,6 +1,6 @@
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0,user-scalable=0">
   <title>Attestation de sortie</title>
   <meta name="apple-mobile-web-app-title" content="Attestation de sortie">
   <link rel="manifest" href="ressources/manifest.webmanifest">
@@ -19,22 +19,74 @@
   <!-- basic favicon -->
   <link rel="shortcut icon" href="ressources/img/favicon32.png">
   <link rel="stylesheet" href="ressources/knacss.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
   <style media="screen">
     body{
       font-family: sans-serif;
+      padding:1em;
     }
+
     label {
       width:12em;
     }
     form .grid-1{
-      max-width: 30em;
+      max-width: 100%;
+      width:40em;
     }
     form .grid-1 div{
       margin:0.3em 0;
     }
+    form input{
+      font-size: 17px;
+    }
+    form input[type=submit]{
+      background-color: #009;
+      color:#FFF;
+      border-radius: 0.4em;
+      margin:10px;
+    }
     .informations{
-      width:30em;
+      max-width: 100%;
+      width:40em;
       margin: 0 auto;
+    }
+    #fileuploader .grid-1 {
+      margin-top:3em;
+      padding-top:3em;
+      border-top:1px solid #999;
+      background-color:#EEE;
+      border-bottom:1px solid #999;
+      margin-bottom:3em;
+      padding-bottom:3em;
+    }
+    .custom-file-input::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+    .custom-file-input::before {
+      content: 'Selectionner';
+      display: inline-block;
+      background: linear-gradient(top, #f9f9f9, #e3e3e3);
+      border: 1px solid #999;
+      /*background-color: #009;
+      color:#FFF;*/
+      border-radius: 10px;
+      padding: 5px 8px;
+      outline: none;
+      white-space: nowrap;
+      -webkit-user-select: none;
+      cursor: pointer;
+      text-shadow: 1px 1px #fff;
+      font-weight: 700;
+      font-size: 10pt;
+    }
+    .custom-file-input:hover::before {
+      border-color: black;
+    }
+    .custom-file-input:active::before {
+      background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+    }
+    .custom-file-label{
+      width:100%
     }
   </style>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
@@ -42,22 +94,53 @@
   <body>
 <form action="/config" id="configForm">
   <div class="grid-1 center">
-<div><label for="nom">Nom</label><input type="text" name="nom"/ placeholder="Nom"></div>
-<div><label for="prenom">Pr&eacute;nom</label><input type="text" name="prenom" placeholder="Prénom"/></div>
-<div><label for="birthday">Date de naissance</label><input type="date" name="birthday"/></div>
-<div><label for="lieunaissance">Ville de naissance</label><input type="text" name="lieunaissance" placeholder="Ville de naisance"/></div>
-<div><label for="adresse">Adresse</label><input type="text" name="adresse" placeholder="Adresse"/></div>
-<div><label for="codepostal">Code Postal</label><input type="text" pattern="[0-9]*" name="codepostal" placeholder="Code postal"/></div>
-<div><label for="ville">Ville</label><input type="text" name="ville" placeholder="Ville"/></div>
-<div><input type="submit" name="Save" value="Sauvegarder"></div>
-</div>
+    <a href="index.html"><i class="fas fa-chevron-circle-left"></i> Retour à l'attestation</a>
+    <h2>Vos données</h2>
+    <div><label for="nom">Nom</label><input type="text" name="nom"/ placeholder="Nom"></div>
+    <div><label for="prenom">Pr&eacute;nom</label><input type="text" name="prenom" placeholder="Prénom"/></div>
+    <div><label for="birthday">Date de naissance</label><input type="date" name="birthday"/></div>
+    <div><label for="lieunaissance">Ville de naissance</label><input type="text" name="lieunaissance" placeholder="Ville de naisance"/></div>
+    <div><label for="adresse">Adresse</label><input type="text" name="adresse" placeholder="Adresse"/></div>
+    <div><label for="codepostal">Code Postal</label><input type="text" pattern="[0-9]*" name="codepostal" placeholder="Code postal"/></div>
+    <div><label for="ville">Ville</label><input type="text" name="ville" placeholder="Ville"/></div>
+    <div><input type="submit" name="Save" value="Sauvegarder"></div>
+      <a href="index.html"> <i class="fas fa-chevron-circle-left"></i> Retour à l'attestation</a>
+  </div>
+</form>
+<form action="" id="fileuploader">
+  <div class="grid-1 center">
+    <h2>Pièces jointes supplémentaires - Expérimental</h2>
+    <div><label for="newFile" class="custom-file-label">Ajouter une pièce jointe (attestation sortie etc.)</label><input type="file" class="custom-file-input" name="newFile" id="newFile" accept="image/png, image/jpeg"/></div>
+    <div><label for="fileName">Donner un nom</label><input type="text" name="fileName" id="fileName" placeholder="Nom pour ce fichier"/></div>
+    <div><label for="fileReason">Associer à une raison</label>
+      <select name="fileReason" id="fileReason">
+        <option value="none">aucune</option>
+        <option value="travail">travail</option>
+        <option value="achats">achats</option>
+        <option value="sante">sante</option>
+        <option value="famille">famille</option>
+        <option value="handicap">handicap</option>
+        <option value="sport_animaux">sport_animaux</option>
+        <option value="convocation">convocation</option>
+        <option value="missions">missions</option>
+        <option value="enfants">enfants</option>
+      </select>
+    </div>
+    <div><input type="submit" name="Save" value="Ajouter le document"/></div>
+    <div><p>CES DOCUMENTS NE SONT PAS CHARG&Eacute;S, NUL PART, JAMAIS,<br/>
+      ILS RESTENT EN LOCAL DANS LE NAVIGATEUR (localStorage pour les connaisseurs) <br>
+      C'est simplement pour faciliter la présentation des documents aux forces de l'ordre <br>
+      <i>La gestion des documents (suppression) est à venir</i>
+    </p></div>
+  </div>
 </form>
 <div class="informations">
 <p>Toutes les données restent locales, rien n'est envoyé au serveur.</p>
-<a href="index.html"> &lt; Retour à l'attestation</a>
+<a href="index.html"> <i class="fas fa-chevron-circle-left"></i> Retour à l'attestation</a>
 </div>
 <script type="text/javascript">
   $('#configForm').on('submit', saveConfig );
+  $('#fileuploader').on('submit', addFile );
 
 function saveConfig(event){
   $('#configForm input').each( (i, el) =>{
@@ -67,11 +150,55 @@ function saveConfig(event){
   alert("Vos données ont bien été enregistrées");
   return false;
 }
+
 function initForm(){
   for(var i in localStorage)
   {
     $(`#configForm input[name="${i}"]`).val(localStorage[i]);
   }
+}
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+})
+
+function addFile( event ){
+  const file = document.querySelector('#newFile').files[0];
+  var fileName = $('#fileName').val() != "" ? $('#fileName').val() : file.name;
+  //console.log(file);
+  var fileReason = $('#fileReason').val();
+  var fileType = file.type;
+  //var fileContent = await toBase64(file);
+
+  //console.log(file64);
+/*
+  saveLocalFile({
+    fileName,
+    fileReason,
+    fileType,
+    fileContent
+  })
+  */
+  toBase64(file).then(file64 => {
+    saveLocalFile({
+      fileName,
+      fileReason,
+      fileType,
+      fileContent : file64
+    });
+    alert(`Fichier ${fileName} sauvegardé localement`)
+  });
+  return false;
+}
+function saveLocalFile( file ){
+  var localFiles = {};
+  if( typeof localStorage.localFiles != "undefined" )
+    localFiles = JSON.parse( localStorage.localFiles );
+  localFiles[ file.fileName ] = file;
+  //save
+  localStorage.localFiles = JSON.stringify( localFiles );
 }
 initForm();
 </script>

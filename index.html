@@ -45,6 +45,12 @@
       color:#009;
       background-color: #EEF;
     }
+    .reasonGrid label .addFileBloc{
+      display : none;
+    }
+    .reasonGrid label.active .addFileBloc{
+      display : block;
+    }
     .reasonGrid label i{
       font-size: 2.5em;
     }
@@ -70,10 +76,10 @@
     <div id="info"></div>
 <form action="/generate" id="generateForm">
 
-  <a href="config.html">Configurer vos donn&eacute;es personnelles</a><br/>
-Raisons de sortie : <br><br>
+  <a href="config.html">Configurer vos donn&eacute;es personnelles <i class="fas fa-chevron-circle-right"></i></a><br/><br/>
+<h4>Raisons de sortie : </h4>
 <input type="submit" name="Generer" value="G&eacute;n&eacute;rer">
-  <div class="reasonGrid grid-3-small-1">
+  <div class="reasonGrid grid-3-small-1" id="reasonGrid">
 
       <label class="form-check-label" for="checkbox-sport_animaux">
         <input class="form-check-input" type="checkbox" name="reason" id="checkbox-sport_animaux" value="sport_animaux">
@@ -127,7 +133,7 @@ Raisons de sortie : <br><br>
          Participation &agrave; des missions d'int&eacute;r&ecirc;t g&eacute;n&eacute;ral <br>
          <i class="fas fa-hammer"></i>
        </label>
-
+      <hr/>
   </div>
 <input type="submit" name="Generer" value="G&eacute;n&eacute;rer">
 </form>

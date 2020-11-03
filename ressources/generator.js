@@ -28,7 +28,7 @@ const generateQR = async text => {
 
 //var encryptedPdfBytes = fs.readFileSync(pdfBase);
 
-async function generateAttestation(user, exitDate, reasons){
+async function generateAttestation(user, exitDate, reasons, files){
   //const encryptedPdfBytes = await fetch('ressources/certificate.pdf').then(res => res.arrayBuffer())
   const encryptedPdfBytes = await fetch('https://raw.githubusercontent.com/cedricrey/AttestCovid/main/ressources/certificate.pdf').then(res => res.arrayBuffer())
   //var user = users[userName];
@@ -36,7 +36,7 @@ async function generateAttestation(user, exitDate, reasons){
   //console.log(pdfDoc);
   var pdfDocPromise = PDFDocument.load(encryptedPdfBytes);
   if( user )
-    return pdfDocPromise.then( generatePdf.bind( this, user, exitDate, reasons ) );
+    return pdfDocPromise.then( generatePdf.bind( this, user, exitDate, reasons, files ) );
   return null;
 /*
   const preparePdfGeneration = ( user ) => {
@@ -48,7 +48,7 @@ async function generateAttestation(user, exitDate, reasons){
 
 
 
-async function generatePdf( user, exitDate, reasons, pdfDoc ){
+async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
 //console.log('Reasons ? ', reasons)
   pdfDoc.setTitle('COVID-19 - Déclaration de déplacement')
   pdfDoc.setSubject('Attestation de déplacement dérogatoire')
@@ -197,6 +197,28 @@ async function generatePdf( user, exitDate, reasons, pdfDoc ){
     height: 300,
   })
 
+  for(var i=0; i<files.length; i++) {
+    file = files[i];
+    var page = pdfDoc.addPage();
+    var image, dims;
+    if( file.fileType.toLowerCase() == "image/jpeg")
+     {
+       image = await pdfDoc.embedJpg(file.fileContent);
+     }
+    if( file.fileType.toLowerCase() == "image/png")
+     {
+       image = await pdfDoc.embedPng(file.fileContent);
+     }
+     dims = image.scale(1);
+     console.log('page.getWidth().width : ', page.getWidth())
+     page.drawImage(image, {
+        x: 0,
+        y: 0,
+        width: page.getWidth(),
+        height: page.getHeight(),
+      })
+  };
+
 
   const pdfBytes = await pdfDoc.save();
   /*
@@ -239,8 +261,13 @@ function idealFontSize (font, text, maxWidth, minSize, defaultSize) {
       prenom: localStorage.prenom || "",
       ville: localStorage.ville || ""
     };
+    var files = [];
+    $('#generateForm input[name="addFile"]:checked').each( (i, el) =>{
+      files.push(localFiles[ $(el).val() ]);
+    });
+
     try{
-      generateAttestation( user, new Date(), reasons.join(', ') ).then( (pdfBytes) => {
+      generateAttestation( user, new Date(), reasons.join(', '), files ).then( (pdfBytes) => {
         var generatedDate = new Date();
         generatedDate.setMinutes( generatedDate.getMinutes() - 10 );
         var generatedDateStr =   `${generatedDate.getFullYear()}-${pad(generatedDate.getMonth() + 1)}-${pad(generatedDate.getDate())}_${pad(generatedDate.getHours())}-${pad(generatedDate.getMinutes())}`
@@ -258,9 +285,32 @@ function idealFontSize (font, text, maxWidth, minSize, defaultSize) {
     }
     return false;
   }
+var localFiles = {};
+
 function initGenerator(){
   if( typeof localStorage.nom == "undefined" )
     displayNoConfigMessage();
+
+  //Gestion des fichiers supplémentaire
+  if( typeof localStorage.localFiles != "undefined" )
+    localFiles = JSON.parse( localStorage.localFiles );
+
+  for(var name in localFiles){
+    var currFile = localFiles[name];
+    if(currFile.fileReason && currFile.fileReason != "none" && $(`#generateForm input[name="reason"][value=${currFile.fileReason}]`).length != 0 )
+      $(`#generateForm input[name="reason"][value=${currFile.fileReason}]`)
+        .parent()
+        .append( $(`<div class="addFileBloc"><input class="form-check-input" type="checkbox" name="addFile" id="addFile-${name}" value="${name}"/><label class="form-check-label" for="addFile-${name}">${name}<br/><i class="far fa-file-image"></i></label></div>`));
+        //.append( $(`<input class="form-check-input" type="checkbox" name="addFile" id="addFile-${name}" value="${name}"/>`))
+        //.append( $(`<label class="form-check-label" for="addFile-${name}">${name}</label>`));
+    else {
+      $('#reasonGrid')
+        .append( $(`<div class="addFileBloc"><input class="form-check-input" type="checkbox" name="addFile" id="addFile-${name}" value="${name}"/><label class="form-check-label" for="addFile-${name}">Ajouter le fichier ${name} <br/> <i class="far fa-file-image"></i> </label></div>`));
+        //.append( $(`<input class="form-check-input" type="checkbox" name="addFile" id="addFile-${name}" value="${name}"/>`))
+        //.append( $(`<label class="form-check-label" for="addFile-${name}">${name}</label>`))
+    }
+  }
+
 }
 function displayNoConfigMessage(){
   var divInfo = $('<div class="error">').html(`Il semble que vous n'ayez pas <a href="config.html">configuré vos données personnelles</a>`);
