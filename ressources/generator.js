@@ -199,24 +199,10 @@ async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
 
   for(var i=0; i<files.length; i++) {
     file = files[i];
-    var page = pdfDoc.addPage();
-    var image, dims;
-    if( file.fileType.toLowerCase() == "image/jpeg")
-     {
-       image = await pdfDoc.embedJpg(file.fileContent);
-     }
-    if( file.fileType.toLowerCase() == "image/png")
-     {
-       image = await pdfDoc.embedPng(file.fileContent);
-     }
-     dims = image.scale(1);
-     console.log('page.getWidth().width : ', page.getWidth())
-     page.drawImage(image, {
-        x: 0,
-        y: 0,
-        width: page.getWidth(),
-        height: page.getHeight(),
-      })
+    if( file.fileType.toLowerCase().indexOf("image") == 0 )
+      await addImageToPDF(pdfDoc, file);
+    if( file.fileType.toLowerCase().indexOf("application/pdf") == 0 )
+      await addPDFToPDF(pdfDoc, file);
   };
 
 
@@ -231,6 +217,38 @@ async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
   */
   return pdfBytes;
 }
+async function addImageToPDF(pdfDoc, file){
+  var page = pdfDoc.addPage();
+  var image, dims;
+  if( file.fileType.toLowerCase() == "image/jpeg")
+   {
+     image = await pdfDoc.embedJpg(file.fileContent);
+   }
+  if( file.fileType.toLowerCase() == "image/png")
+   {
+     image = await pdfDoc.embedPng(file.fileContent);
+   }
+   dims = image.scale(1);
+   console.log('page.getWidth().width : ', page.getWidth())
+   page.drawImage(image, {
+      x: 0,
+      y: 0,
+      width: page.getWidth(),
+      height: page.getHeight(),
+    });
+}
+
+async function addPDFToPDF(pdfDoc, file){
+  //console.log('I addPDFToPDF');
+  const pdfToCopy = await PDFDocument.load(file.fileContent);
+  const copiedPages = await pdfDoc.copyPages(pdfToCopy, pdfToCopy.getPageIndices());
+    copiedPages.forEach((page) => {
+      console.log('I copy a page : ', page );
+      pdfDoc.addPage(page);
+      console.log('I copy a page  pdfDoc : ', pdfDoc );
+    });
+}
+
 function pad (str) {
   return String(str).padStart(2, '0')
 }

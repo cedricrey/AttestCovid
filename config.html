@@ -110,7 +110,7 @@
 <form action="" id="fileuploader">
   <div class="grid-1 center">
     <h2>Pièces jointes supplémentaires - Expérimental</h2>
-    <div><label for="newFile" class="custom-file-label">Ajouter une pièce jointe (attestation sortie etc.)</label><input type="file" class="custom-file-input" name="newFile" id="newFile" accept="image/png, image/jpeg"/></div>
+    <div><label for="newFile" class="custom-file-label">Ajouter une pièce jointe (attestation sortie etc.)</label><input type="file" class="custom-file-input" name="newFile" id="newFile" accept="image/png, image/jpeg, application/pdf"/></div>
     <div><label for="fileName">Donner un nom</label><input type="text" name="fileName" id="fileName" placeholder="Nom pour ce fichier"/></div>
     <div><label for="fileReason">Associer à une raison</label>
       <select name="fileReason" id="fileReason">
@@ -130,8 +130,11 @@
     <div><p>CES DOCUMENTS NE SONT PAS CHARG&Eacute;S, NUL PART, JAMAIS,<br/>
       ILS RESTENT EN LOCAL DANS LE NAVIGATEUR (localStorage pour les connaisseurs) <br>
       C'est simplement pour faciliter la présentation des documents aux forces de l'ordre <br>
-      <i>La gestion des documents (suppression) est à venir</i>
-    </p></div>
+      Scannez vos documents (photos sur smartphone, fichier sur PC), <br>
+      Vous choisissez les documents à ajouter à la suite de l'attestation.
+    </p>
+    <ul id="localFiles"></ul>
+    </div>
   </div>
 </form>
 <div class="informations">
@@ -199,8 +202,44 @@ function saveLocalFile( file ){
   localFiles[ file.fileName ] = file;
   //save
   localStorage.localFiles = JSON.stringify( localFiles );
+  updateLocalFilesList();
 }
+
+function updateLocalFilesList(){
+  $('#localFiles').empty();
+  var localFiles = {};
+  if( typeof localStorage.localFiles != "undefined" )
+    localFiles = JSON.parse( localStorage.localFiles );
+
+  for(var name in localFiles){
+    var currFile = localFiles[name];
+    var currType = currFile.fileType == "application/pdf" ? "PDF" : currFile.fileType.indexOf('image') == 0 ? "Image" : "";
+    var currLi = $(`<li>${name} (${currType}, raison : ${currFile.fileReason}) <a href="" data-name="${name}" class="deleteFileLink"><i class="far fa-trash-alt" style="color:red"></i></a></li>`);
+    $('#localFiles')
+      .append( currLi );
+  }
+  $("a.deleteFileLink").on('click', deleteFile );
+
+
+
+}
+
+function deleteFile( event ){
+  var currTarget = $(event.currentTarget);
+  var fileName = currTarget.data('name');
+  var localFiles = {};
+  if( typeof localStorage.localFiles != "undefined" )
+    localFiles = JSON.parse( localStorage.localFiles );
+
+  if( localFiles[ fileName ] )
+    delete localFiles[ fileName ];
+  localStorage.localFiles = JSON.stringify( localFiles );
+  updateLocalFilesList();
+  return false;
+}
+
 initForm();
+updateLocalFilesList();
 </script>
   </body>
 </html>
