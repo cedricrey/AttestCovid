@@ -29,8 +29,8 @@ const generateQR = async text => {
 //var encryptedPdfBytes = fs.readFileSync(pdfBase);
 
 async function generateAttestation(user, exitDate, reasons, files){
-  //const encryptedPdfBytes = await fetch('ressources/certificate.pdf').then(res => res.arrayBuffer())
-  const encryptedPdfBytes = await fetch('https://raw.githubusercontent.com/cedricrey/AttestCovid/main/ressources/certificate.pdf').then(res => res.arrayBuffer())
+  const encryptedPdfBytes = await fetch('ressources/certificate_v2.pdf').then(res => res.arrayBuffer())
+  //const encryptedPdfBytes = await fetch('https://raw.githubusercontent.com/cedricrey/AttestCovid/main/ressources/certificate_v2.pdf').then(res => res.arrayBuffer())
   //var user = users[userName];
   //, exitDate = null, reasons = 'travail-sante';
   //console.log(pdfDoc);
@@ -85,22 +85,22 @@ async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
   }
 
   const ys = {
-    travail: 578,
-    achats: 533,
-    sante: 477,
-    famille: 435,
-    handicap: 396,
-    sport_animaux: 358,
-    convocation: 295,
-    missions: 255,
-    enfants: 211,
+    travail: 553,
+    achats_culturel_cultuel: 482,
+    sante: 434,
+    famille: 410,
+    handicap: 373,
+    sport_animaux: 349,
+    convocation: 276,
+    missions: 252,
+    enfants: 228,
   };
 
 
-  drawText(`${user.prenom} ${user.nom}`, 119, 696);
-  drawText(user.birthday, 119, 674);
-  drawText(user.lieunaissance, 297, 674);
-  drawText(`${user.adresse} ${user.codepostal} ${user.ville}`, 133, 652);
+  drawText(`${user.prenom} ${user.nom}`, 92, 702);
+  drawText(user.birthday, 92, 684);
+  drawText(user.lieunaissance, 214, 684);
+  drawText(`${user.adresse} ${user.codepostal} ${user.ville}`, 104, 665);
 
   if( !reasons || reasons == "" )
     reasons = "courses";
@@ -129,7 +129,7 @@ async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
   var reasonsArray = reasons.split(', ');
   reasonsArray.forEach(
      reason => {
-      drawText('x', 84, ys[ reason ], 18);
+      drawText('x', 47, ys[ reason ], 12);
   });
 
   let locationSize = idealFontSize(font, user.ville, 83, 7, 11)
@@ -139,7 +139,7 @@ async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
       'Essayez d\'utiliser des abréviations ("Saint" en "St." par exemple) quand cela est possible.')
     locationSize = 7
   }
-  drawText(user.ville, 105, 175, locationSize)
+  drawText(user.ville, 78, 76, locationSize)
 
   var creationDate = new Date();
   creationDate.setMinutes( creationDate.getMinutes() - 10 );
@@ -162,9 +162,9 @@ async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
    drawText(releaseMinutes, 220, 201);
     */
 
-  drawText(datesortie, 91, 153, 11)
+  drawText(datesortie, 63, 58, 11)
   //drawText(`${releaseHours}:${releaseMinutes}`, 264, 153, 11)
-  drawText(`${creationHour}`, 260, 153, 11)
+  drawText(`${creationHour}`, 227, 58, 11)
 
 
   var data = [
@@ -175,6 +175,7 @@ async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
       `Adresse: ${user.adresse} ${user.codepostal} ${user.ville}`,
       `Sortie: ${datesortie} a ${releaseHours}h${releaseMinutes}`,
       `Motifs: ${reasons}`,
+      "",
     ].join(';\n ');
 
   const generatedQR = await generateQR(data);
@@ -183,7 +184,7 @@ async function generatePdf( user, exitDate, reasons, files, pdfDoc ){
 
   page1.drawImage(qrImage, {
     x: page1.getWidth() - 156,
-    y: 100,
+    y: 25,
     width: 92,
     height: 92,
   })
